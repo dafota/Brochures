@@ -72,9 +72,9 @@ fun BrochuresScreen(
                     ) {
                         items(
                             items = state.brochures,
-                            key = { it.hashCode() },
+                            key = { it.id },
                         ) { brochure ->
-                            Text(brochure)
+                            Text(brochure.retailerName)
                         }
                     }
                 }
