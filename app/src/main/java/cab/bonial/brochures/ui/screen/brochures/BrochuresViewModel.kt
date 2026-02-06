@@ -2,6 +2,7 @@ package cab.bonial.brochures.ui.screen.brochures
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cab.bonial.brochures.domain.usecase.GetBrochuresUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,9 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class BrochuresViewModel @Inject constructor() : ViewModel() {
+class BrochuresViewModel @Inject constructor(
+    private val getBrochuresUseCase: GetBrochuresUseCase
+) : ViewModel() {
 
     private val _state = MutableStateFlow(BrochureUiState())
     val state = _state.asStateFlow()
@@ -31,8 +34,25 @@ class BrochuresViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, isError = false) }
             delay(4000)
-            val fakeData = listOf("Brochure1", "Brochure2", "Brochure3")
-            _state.update { it.copy(isLoading = false, isError = false, brochures = fakeData) }
+
+            getBrochuresUseCase()
+                .onSuccess { brochures ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            brochures = brochures,
+                            isError = false
+                        )
+                    }
+                }
+                .onFailure {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = true
+                        )
+                    }
+                }
         }
     }
 }
