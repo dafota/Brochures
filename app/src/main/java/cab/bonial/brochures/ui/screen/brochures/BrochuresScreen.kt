@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cab.bonial.brochures.ui.component.BrochureCard
+import cab.bonial.brochures.ui.component.BrochureGrid
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,20 +66,7 @@ fun BrochuresScreen(
                 }
 
                 else -> {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(16.dp)
-                    ) {
-                        items(
-                            items = state.brochures,
-                            key = { it.id },
-                        ) { brochure ->
-                            BrochureCard(brochure)
-                        }
-                    }
+                    BrochureGrid(state.brochures)
                 }
             }
         }
