@@ -5,5 +5,6 @@ data class Brochure(
     val contentType: String,
     val imageUrl: String?,
     val retailerName: String,
-    val distance: Double
+    val distance: Double,
+    val isPremium: Boolean,
 )

@@ -28,7 +28,7 @@ class BrochureRepositoryImpl @Inject constructor(
     }
 
     private fun map(item: ShelfContentItem): Brochure? {
-        if (item.contentType != "brochure") return null
+        if (item.contentType !in arrayOf("brochurePremium", "brochure")) return null
 
         val contentElement = item.content
         if (contentElement == null || contentElement !is JsonObject) return null
@@ -48,6 +48,7 @@ class BrochureRepositoryImpl @Inject constructor(
             imageUrl = brochureContent.brochureImage,
             retailerName = retailerName,
             distance = brochureContent.distance ?: 0.0,
+            isPremium = item.contentType == "brochurePremium"
         )
     }
 }
