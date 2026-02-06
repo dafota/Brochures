@@ -1,7 +1,6 @@
 package cab.bonial.brochures.di
 
-import android.R.attr.level
-import cab.bonial.brochures.data.api.BrochureApiService
+import cab.bonial.brochures.data.api.ShelfApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +47,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideBrochureApiService(retrofit: Retrofit): BrochureApiService =
-        retrofit.create(BrochureApiService::class.java)
+    fun provideBrochureApiService(retrofit: Retrofit): ShelfApiService =
+        retrofit.create(ShelfApiService::class.java)
 }

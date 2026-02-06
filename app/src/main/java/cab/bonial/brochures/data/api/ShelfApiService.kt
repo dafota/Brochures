@@ -3,7 +3,7 @@ package cab.bonial.brochures.data.api
 import cab.bonial.brochures.data.model.ShelfResponse
 import retrofit2.http.GET
 
-interface BrochureApiService {
+interface ShelfApiService {
     @GET("shelf.json")
-    suspend fun getBrochures(): ShelfResponse
+    suspend fun getShelf(): ShelfResponse
 }
