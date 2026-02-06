@@ -2,6 +2,7 @@ package cab.bonial.brochures.ui.screen.brochures
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cab.bonial.brochures.ui.component.BrochureCard
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,15 +68,15 @@ fun BrochuresScreen(
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = padding,
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(16.dp)
                     ) {
                         items(
                             items = state.brochures,
                             key = { it.id },
                         ) { brochure ->
-                            Text(brochure.retailerName)
+                            BrochureCard(brochure)
                         }
                     }
                 }
