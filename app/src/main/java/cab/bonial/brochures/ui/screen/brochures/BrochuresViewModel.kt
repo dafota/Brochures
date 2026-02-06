@@ -10,19 +10,29 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class BrochuresViewModel @Inject constructor() : ViewModel() {
 
-    private val _state = MutableStateFlow(1)
+    private val _state = MutableStateFlow(BrochureUiState())
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            while (true) {
-                _state.update { it + 1 }
-                delay(2000)
-            }
+        loadBrochures()
+    }
+
+    fun processIntent(intent: BrochureIntent) {
+        when (intent) {
+            BrochureIntent.LoadBrochures -> loadBrochures()
         }
     }
 
+    private fun loadBrochures() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, isError = false) }
+            delay(4000)
+            val fakeData = listOf("Brochure1", "Brochure2", "Brochure3")
+            _state.update { it.copy(isLoading = false, isError = false, brochures = fakeData) }
+        }
+    }
 }
