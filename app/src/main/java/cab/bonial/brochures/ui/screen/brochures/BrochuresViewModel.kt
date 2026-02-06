@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cab.bonial.brochures.domain.usecase.GetBrochuresUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -33,7 +32,6 @@ class BrochuresViewModel @Inject constructor(
     private fun loadBrochures() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, isError = false) }
-            delay(4000)
 
             getBrochuresUseCase()
                 .onSuccess { brochures ->
