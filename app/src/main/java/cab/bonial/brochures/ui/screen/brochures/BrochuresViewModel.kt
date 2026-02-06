@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cab.bonial.brochures.domain.usecase.GetBrochuresUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +20,9 @@ class BrochuresViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(BrochureUiState())
     val state = _state.asStateFlow()
+
+    private val _effect = Channel<BrochureSideEffect>()
+    val effect = _effect.receiveAsFlow()
 
     init {
         loadBrochures()
@@ -43,13 +48,15 @@ class BrochuresViewModel @Inject constructor(
                         )
                     }
                 }
-                .onFailure {
+                .onFailure {error ->
                     _state.update {
                         it.copy(
                             isLoading = false,
                             isError = true
                         )
                     }
+
+                    _effect.send(BrochureSideEffect.ShowToast(error.message ?: "Unknown error"))
                 }
         }
     }

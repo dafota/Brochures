@@ -69,12 +69,6 @@ fun BrochureCard(
     }
 }
 
-/**
- * Optimized brochure image with loading/error states.
- * - Downscales images to actual display size (saves memory)
- * - Shows placeholder while loading
- * - Shows error placeholder if image fails to load
- */
 @Composable
 private fun BrochureImage(
     imageUrl: String?,
@@ -103,9 +97,7 @@ private fun BrochureImage(
     )
 }
 
-/**
- * Placeholder shown during loading or on error.
- */
+
 @Composable
 private fun ImagePlaceholder(isLoading: Boolean) {
     Box(
